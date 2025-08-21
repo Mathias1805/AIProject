@@ -1,0 +1,191 @@
+{
+  "extraction_info": {
+    "total_matches": 10,
+    "unique_frames_extracted": 10,
+    "results_directory": "./runs/detect/predict2/results/video_2_1755796994"
+  },
+  "extracted_frames": [
+    {
+      "frame_number": 900,
+      "filename": "frame_000900.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_000900.jpg"
+    },
+    {
+      "frame_number": 3834,
+      "filename": "frame_003834.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_003834.jpg"
+    },
+    {
+      "frame_number": 4064,
+      "filename": "frame_004064.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004064.jpg"
+    },
+    {
+      "frame_number": 4078,
+      "filename": "frame_004078.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004078.jpg"
+    },
+    {
+      "frame_number": 4130,
+      "filename": "frame_004130.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004130.jpg"
+    },
+    {
+      "frame_number": 4131,
+      "filename": "frame_004131.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004131.jpg"
+    },
+    {
+      "frame_number": 4132,
+      "filename": "frame_004132.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004132.jpg"
+    },
+    {
+      "frame_number": 4154,
+      "filename": "frame_004154.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004154.jpg"
+    },
+    {
+      "frame_number": 4290,
+      "filename": "frame_004290.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004290.jpg"
+    },
+    {
+      "frame_number": 4372,
+      "filename": "frame_004372.jpg",
+      "path": "./runs/detect/predict2/results/video_2_1755796994\\frame_004372.jpg"
+    }
+  ],
+  "matches_detail": [
+    {
+      "img": "crop_003252.jpg",
+      "similaridad": 62.40625,
+      "frame_number": 3834,
+      "bbox": [
+        493,
+        574,
+        601,
+        865
+      ],
+      "confidence": 0.7505081295967102,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004156.jpg",
+      "similaridad": 60.9375,
+      "frame_number": 4154,
+      "bbox": [
+        1833,
+        689,
+        1919,
+        1042
+      ],
+      "confidence": 0.7806620001792908,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004035.jpg",
+      "similaridad": 60.875,
+      "frame_number": 4131,
+      "bbox": [
+        1745,
+        725,
+        1861,
+        1054
+      ],
+      "confidence": 0.7674664855003357,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004045.jpg",
+      "similaridad": 60.0625,
+      "frame_number": 4132,
+      "bbox": [
+        1745,
+        725,
+        1861,
+        1054
+      ],
+      "confidence": 0.7670844197273254,
+      "class_id": 0
+    },
+    {
+      "img": "crop_003746.jpg",
+      "similaridad": 59.8125,
+      "frame_number": 4064,
+      "bbox": [
+        1579,
+        634,
+        1691,
+        900
+      ],
+      "confidence": 0.7637315988540649,
+      "class_id": 0
+    },
+    {
+      "img": "crop_003799.jpg",
+      "similaridad": 59.78125,
+      "frame_number": 4078,
+      "bbox": [
+        1631,
+        536,
+        1740,
+        816
+      ],
+      "confidence": 0.777868390083313,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004028.jpg",
+      "similaridad": 59.40625,
+      "frame_number": 4130,
+      "bbox": [
+        1738,
+        739,
+        1851,
+        1055
+      ],
+      "confidence": 0.781807005405426,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004698.jpg",
+      "similaridad": 59.0,
+      "frame_number": 4372,
+      "bbox": [
+        1660,
+        721,
+        1763,
+        1016
+      ],
+      "confidence": 0.759765088558197,
+      "class_id": 0
+    },
+    {
+      "img": "crop_004510.jpg",
+      "similaridad": 58.875,
+      "frame_number": 4290,
+      "bbox": [
+        1738,
+        292,
+        1825,
+        548
+      ],
+      "confidence": 0.7595424056053162,
+      "class_id": 0
+    },
+    {
+      "img": "crop_000363.jpg",
+      "similaridad": 58.53125,
+      "frame_number": 900,
+      "bbox": [
+        1141,
+        221,
+        1227,
+        520
+      ],
+      "confidence": 0.7616124153137207,
+      "class_id": 0
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import pandas as pd
 import cv2
 from ultralytics import YOLO, solutions
 import json
+import time
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
@@ -82,8 +83,9 @@ async def process_video(
     ):
      
     try:
+        timestamp = int(time.time())
         # 1. Guardar la imagen subida
-        file_path = os.path.join(UPLOAD_DIR, f"query_{video_id}.jpg")
+        file_path = os.path.join(UPLOAD_DIR, f"query_{video_id}_{timestamp}.jpg")
         
         # Depuración: Verifica si el directorio existe y la ruta completa
         print(f"Intentando guardar la imagen en: {file_path}")
@@ -217,6 +219,73 @@ async def process_video(
         results_with_frames.sort(key=lambda x: x['similaridad'], reverse=True)
         top_results = results_with_frames[:10]
 
+        ################################################################################################################
+        
+        # NUEVO: Extraer frames completos de los top matches
+        results_dir = f"{recortes_dir}/results/video_{video_id}_{timestamp}"
+        os.makedirs(results_dir, exist_ok=True)
+        
+        # Extraer números de frame únicos
+        unique_frames = set()
+        for match in top_results:
+            if 'frame_number' in match:
+                unique_frames.add(match['frame_number'])
+        
+        unique_frames = sorted(list(unique_frames))
+        print(f"Extrayendo {len(unique_frames)} frames únicos...")
+        
+        # Encontrar archivo de video
+        avi_files = [os.path.join(recortes_dir, f) for f in os.listdir(recortes_dir) if f.endswith('.avi')]
+        
+        if avi_files:
+            VIDEO_PATH = avi_files[0]
+            cap = cv2.VideoCapture(VIDEO_PATH)
+            
+            if cap.isOpened():
+                extracted_frames = []
+                current_frame = 0
+                extracted_count = 0
+                
+                while cap.isOpened() and extracted_count < len(unique_frames):
+                    ret, frame = cap.read()
+                    if not ret:
+                        break
+                    
+                    if current_frame in unique_frames:
+                        frame_filename = f"frame_{current_frame:06d}.jpg"
+                        frame_path = os.path.join(results_dir, frame_filename)
+                        
+                        if cv2.imwrite(frame_path, frame):
+                            extracted_frames.append({
+                                'frame_number': current_frame,
+                                'filename': frame_filename,
+                                'path': frame_path
+                            })
+                            extracted_count += 1
+                    
+                    current_frame += 1
+                
+                cap.release()
+                print(f"Extracción completada: {extracted_count} frames guardados")
+                
+                # Crear metadatos
+                metadata = {
+                    "extraction_info": {
+                        "total_matches": len(top_results),
+                        "unique_frames_extracted": len(extracted_frames),
+                        "results_directory": results_dir
+                    },
+                    "extracted_frames": extracted_frames,
+                    "matches_detail": top_results
+                }
+                
+                metadata_path = os.path.join(results_dir, "extraction_metadata.json")
+                with open(metadata_path, 'w') as f:
+                    json.dump(metadata, f, indent=2)
+        
+        ################################################################################################################
+
+
         return JSONResponse({
             "video_id": video_id,
             "query_image": file_path,
@@ -224,6 +293,12 @@ async def process_video(
             "total_frames_processed": max([frame_mapping[name]['frame_number'] for name in frame_mapping.keys()]) + 1 if frame_mapping else 0,
             "top_matches": top_results,
             "frame_mapping_file": frame_mapping_file,
+            "extracted_frames": {
+                "count": len(unique_frames),
+                "frames": unique_frames,
+                "results_directory": results_dir,
+                "metadata_file": f"{results_dir}/extraction_metadata.json"
+            },
             "status": "processed"
         })
 
