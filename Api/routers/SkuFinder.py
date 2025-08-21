@@ -33,9 +33,9 @@ class FrameTrackingCropper:
         self.crop_dir = crop_dir
         self.frame_mapping = {}  # Mapeo de archivo crop -> número de frame
         self.crop_counter = 0
-        
+
         os.makedirs(crop_dir, exist_ok=True)
-    
+        
     def process_frame(self, frame, frame_number):
         """Procesa un frame y guarda los crops con información del frame"""
         results = self.model(frame, conf=self.conf)
@@ -103,36 +103,32 @@ async def process_video(
         query_image = preprocess(Image.open(file_path)).unsqueeze(0).to(device)
         with torch.no_grad():
             query_features = model.encode_image(query_image)
-        
+        print("PASO 1 COMPLETE")
         # 3. Procesar recortes del video
         recortes_dir = f"./runs/detect/predict{video_id}"
         recortes_obj_dir = f"./runs/detect/predict{video_id}/objs"
         frame_mapping_file = f"./runs/detect/predict{video_id}/frame_mapping.json"
-
+        
+        print("PASO 1.1 COMPLETE")
+        
         avi_files = []
         for file in os.listdir(recortes_dir):
             if file.endswith('.avi'):
                 avi_files.append(os.path.join(recortes_dir, file))
-
-        if len(avi_files) == 1:
-            mp4_file_avi = str(avi_files[0])
-            mp4_file_mp4 = mp4_file_avi.replace(".avi", ".mp4")
-            os.rename(str(avi_files[0]), mp4_file_mp4)
-
-        mp4_files = []
-        for file in os.listdir(recortes_dir):
-            if file.endswith('.mp4'):
-                mp4_files.append(os.path.join(recortes_dir, file))    
+        
+        print(avi_files)
+        
+        print("PASO 2 COMPLETE")
 
         if not os.path.exists(recortes_obj_dir):
-            VIDEO_PATH = str(mp4_files[0])
+            VIDEO_PATH = str(avi_files[0])
             cap = cv2.VideoCapture(VIDEO_PATH)
             assert cap.isOpened(), f"No se pudo abrir el video: {VIDEO_PATH}"
 
             # Usar nuestro cropper personalizado con tracking de frames
             cropper = FrameTrackingCropper(
                 model=model_yolo,
-                conf=0.8,
+                conf=0.75,
                 crop_dir=recortes_obj_dir
             )
 
@@ -157,6 +153,8 @@ async def process_video(
             # Guardar el mapeo de frames
             cropper.save_frame_mapping(frame_mapping_file)
             print(f"Mapeo de frames guardado en: {frame_mapping_file}")
+
+        print("PASO 3 COMPLETE")
 
         # Cargar el mapeo de frames si existe
         frame_mapping = {}
@@ -212,6 +210,8 @@ async def process_video(
                 })
             
             results_with_frames.append(result)
+        
+        print("PASO 4 COMPLETE")
 
         # Ordenar por similaridad
         results_with_frames.sort(key=lambda x: x['similaridad'], reverse=True)
