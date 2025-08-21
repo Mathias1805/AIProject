@@ -433,14 +433,3 @@ async def delete_task(task_id: str):
             "video_id": deleted_task.get('video_id')
         }
     })
-
-# Endpoint original bloqueante (por compatibilidad)
-@router.post("/compare_sync/{video_id}")
-async def process_video_blocking(
-    video_id: int,
-    image: UploadFile = File(...)
-):
-    """Endpoint bloqueante original (mantenido por compatibilidad)"""
-    # Aquí iría tu código original...
-    # Lo omito por brevedad pero sería el mismo código que tenías antes
-    pass
