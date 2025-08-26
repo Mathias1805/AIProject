@@ -5,11 +5,24 @@ from pathlib import Path
 from datetime import datetime
 from ultralytics import YOLO
 from routers.SkuFinder import router as SkuFinder_router
+from routers.Stream import router as Stream_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Incluir el router
 app.include_router(SkuFinder_router)
+app.include_router(Stream_router)
 
 def process_video_simple(video_path, conf=0.5):
     # Cargar tu modelo entrenado

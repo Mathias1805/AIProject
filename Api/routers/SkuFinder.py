@@ -1,8 +1,7 @@
 import shutil
 import asyncio
-import threading
 from concurrent.futures import ThreadPoolExecutor
-from fastapi import APIRouter, File, HTTPException, UploadFile, BackgroundTasks
+from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 import torch
 import clip
